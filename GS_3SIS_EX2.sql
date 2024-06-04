@@ -1,6 +1,10 @@
-SELECT * FROM pf0645.localizacoes;
-SELECT * FROM pf0645.especies_marinhas;
-SELECT * FROM pf0645.condicoes_ambientais;
-SELECT * FROM pf0645.poluicoes;
+SELECT * FROM localizacao;
+SELECT * FROM especies_marinhas;
+SELECT * FROM condicoes_ambientais;
+SELECT * FROM poluicoes;
 
-CREATE SYNONYM poluicoes FOR pf0645.poluicoes
+SELECT loc.nome, cond.data, pol.tipo_poluente, AVG(cond.temperatura)
+FROM localizacao loc INNER JOIN condicoes_ambientais cond ON (loc.localizacao_id = cond.localizacao_id) 
+INNER  JOIN poluicoes pol ON (loc.localizacao_id = pol.localizacao_id)
+WHERE loc.nome IN ('Baía de Guanabara' ,'Recife de Tubbataha')
+GROUP BY loc.nome, cond.data, pol.tipo_poluente
