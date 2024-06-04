@@ -2,18 +2,16 @@ SELECT * FROM localizacao;
 SELECT * FROM especies_marinhas;
 SELECT * FROM condicoes_ambientais;
 SELECT * FROM poluicoes;
+SELECT * FROM poluicoes_grave;
+SELECT * FROM poluicoes_comum;
 
-drop table poluicoes_grave;
-drop table poluicoes_comum;
 
-CREATE TABLE poluicoes_comum (
- poluicao_id INT PRIMARY KEY,
- localizacao_id INT,
- data DATE,
- tipo_poluente VARCHAR2(50),
- concentracao FLOAT,
- descricao CLOB,
- nome_localizacao VARCHAR2(100),
- FOREIGN KEY (localizacao_id) REFERENCES 
-localizacao (localizacao_id));
+INSERT FIRST
+    WHEN concentracao > 10 THEN
+        INTO poluicoes_grave VALUES (id, localizacao_id, data, tipo_poluente, concentracao, descricao, nome)
+    ELSE 
+        INTO poluicoes_comum VALUES (id, localizacao_id, data, tipo_poluente, concentracao,descricao, nome)
+SELECT p.id, l.localizacao_id, data, tipo_poluente , concentracao , p.descricao, nome 
+FROM poluicoes p INNER JOIN localizacao l ON (p.localizacao_id = l.localizacao_id)
+
 
