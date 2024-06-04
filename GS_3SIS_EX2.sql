@@ -3,8 +3,18 @@ SELECT * FROM especies_marinhas;
 SELECT * FROM condicoes_ambientais;
 SELECT * FROM poluicoes;
 
-SELECT loc.nome, cond.data, pol.tipo_poluente, AVG(cond.temperatura)
-FROM localizacao loc INNER JOIN condicoes_ambientais cond ON (loc.localizacao_id = cond.localizacao_id) 
-INNER  JOIN poluicoes pol ON (loc.localizacao_id = pol.localizacao_id)
-WHERE loc.nome IN ('Baía de Guanabara' ,'Recife de Tubbataha')
-GROUP BY loc.nome, cond.data, pol.tipo_poluente
+drop table poluicoes_grave;
+drop table poluicoes_comum;
+
+CREATE TABLE poluicoes_grave (
+ poluicao_id INT PRIMARY KEY,
+ localizacao_id INT,
+ data DATE,
+ tipo_poluente VARCHAR2(50),
+ concentracao FLOAT,
+ descricao CLOB,
+ nome_localizacao VARCHAR2(100),
+ FOREIGN KEY (localizacao_id) REFERENCES 
+localizacao(localizacao_id));
+
+
